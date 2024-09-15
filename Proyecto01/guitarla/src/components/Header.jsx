@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 
-const Header = () => {
+const Header = ({cart,eliminarGuitar,decreaseQuantity,incrementQuantity,vaciarCarrito}) => {
 
-
-const [guitarras,setGuitarras]=useState(true);
 
 
   return (
@@ -22,11 +20,11 @@ const [guitarras,setGuitarras]=useState(true);
                         <img className="img-fluid" src="./public/img/carrito.png" alt="imagen carrito" />
 
                         <div id="carrito" className="bg-white p-3">
-                            <p className="text-center">El carrito esta vacio</p>
+                            
 
                             <table className="w-100 table">
 
-                                <thead>
+                                {cart.length!=0 ? (<thead>
                                     <tr>
                                         <th>Imagen</th>
                                         <th>Nombre</th>
@@ -34,28 +32,31 @@ const [guitarras,setGuitarras]=useState(true);
                                         <th>Cantidad</th>
                                         <th></th>
                                     </tr>
-                                </thead>
+                                </thead>) : (<p className="text-center">El carrito esta vacio</p>) }
 
                                 <tbody>
-                                    <tr>
+                                    {cart.map((guitar)=>(
+                                    <tr key={guitar.id}>
                                         <td>
-                                            <img className="img-fluid" src="./public/img/guitarra_02.jpg" alt="imagen guitarra" />
+                                            <img className="img-fluid" src={`./public/img/${guitar.image}.jpg`} alt="imagen guitarra" />
                                         </td>
-                                        <td>SRV</td>
+                                        <td>{guitar.name}</td>
                                         <td className="fw-bold">
-                                                $299
+                                                ${guitar.price}
                                         </td>
                                         <td className="flex align-items-start gap-4">
                                             <button
                                                 type="button"
                                                 className="btn btn-dark"
+                                                onClick={()=>decreaseQuantity(guitar.id)}
                                             >
                                                 -
                                             </button>
-                                                1
+                                                {guitar.quantity}
                                             <button
                                                 type="button"
                                                 className="btn btn-dark"
+                                                onClick={()=>incrementQuantity(guitar.id)}
                                             >
                                                 +
                                             </button>
@@ -64,18 +65,29 @@ const [guitarras,setGuitarras]=useState(true);
                                             <button
                                                 className="btn btn-danger"
                                                 type="button"
+                                                onClick={()=>eliminarGuitar(guitar.id)}
                                             >
                                                 X
                                             </button>
                                         </td>
                                     </tr>
+                                ))}
+                                    
                                 </tbody>
 
                             </table>
 
-                            <p className="text-end">Total pagar: <span className="fw-bold">$899</span></p>
+                            
 
-                            {guitarras.length==0 ? <button className="btn btn-dark w-100 mt-3 p-2">Vaciar Carrito</button> : 'esta vacio'}
+                            {cart.length!=0 ? 
+                            (
+                            <div>
+                            <p className="text-end">Total pagar: <span className="fw-bold">$899</span></p>
+                            <button className="btn btn-dark w-100 mt-3 p-2"
+                            onClick={()=>vaciarCarrito()}>
+                                Vaciar Carrito
+                            </button>
+                            </div>) : ''}
                         </div>
                     </div>
                 </nav>
