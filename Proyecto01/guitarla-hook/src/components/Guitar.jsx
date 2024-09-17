@@ -1,16 +1,6 @@
 import React from 'react'
-
-const Guitar = ({guitarra,setCart,cart,submitCar}) => {
-  
+const Guitar = ({submitCar,guitarra}) => {
     const {id,name,image,description,price}=guitarra;
-
-    const handleClick=()=>{
-        console.log("Diste click aqui "+id);
-    }
-
-    
-  
-
     return (
     <div className="col-md-6 col-lg-4 my-4 row align-items-center">
                 <div className="col-4">
@@ -24,7 +14,6 @@ const Guitar = ({guitarra,setCart,cart,submitCar}) => {
                         onClick={()=>submitCar(guitarra)}
                         type="button"
                         className="btn btn-dark w-100 "
-                        
                     >Agregar al Carrito</button>
                 </div>
         </div>

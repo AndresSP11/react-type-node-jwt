@@ -1,12 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from "react"
+import { db } from "../data/guitarras";
 
-import Header from './components/Header'
-import Guitar from './components/Guitar';
-import { db } from './data/guitarras';
-
-
-function App() {
-
+export const useCart = () => {
+  
     const initialCart=()=>{
         const localStorageCart=localStorage.getItem('cart');
         /* En este caso descubre si hay algo o no */
@@ -97,48 +93,28 @@ function App() {
     const vaciarCarrito=()=>{
         setCart([]);
     }
+
     const eliminarGuitar=(id)=>{
-        const filtrandoGuitarra=cart.filter(guitar=>guitar.id!=id)
-        setCart(filtrandoGuitarra);
+        const nuevoArreglo=cart.filter(item=>item.id!=id);
+        setCart(nuevoArreglo);
     }
-  return (
-    <>
-      
-    
-    <Header
-    cart={cart}
-    eliminarGuitar={eliminarGuitar}
-    incrementQuantity={incrementQuantity}
-    decreaseQuantity={decreaseQuantity}
-    vaciarCarrito={vaciarCarrito}
-    ></Header>
-    <main className="container-xl mt-5">
-        <h2 className="text-center">Nuestra Colección</h2>
-        <div className="row mt-5">
-            { guitarras.map(guitarra=>(
-                <Guitar
-                guitarra={guitarra}
-                key={guitarra.id}
-                setCart={setCart}
-                cart={cart}
-                submitCar={submitCar}
-                
-                >
 
-                </Guitar>
-            ))}
-        </div>
-    </main>
+    const isEmpty=useMemo(()=>cart.length===0,[cart]);
+    const cartTotal=useMemo(()=>cart.reduce((total,item)=>total+item.quantity*item.price,0),[cart]);
 
 
-    <footer className="bg-dark mt-5 py-5">
-        <div className="container-xl">
-            <p className="text-white text-center fs-4 mt-4 m-md-0">GuitarLA - Todos los derechos Reservados</p>
-        </div>
-    </footer>
 
-    </>
-  )
+  return{
+    guitarras,
+    cart,
+    submitCar,
+    decreaseQuantity,
+    incrementQuantity,
+    vaciarCarrito,
+    eliminarGuitar,
+    setCart,
+    isEmpty,
+    cartTotal
+
+  }
 }
-
-export default App
