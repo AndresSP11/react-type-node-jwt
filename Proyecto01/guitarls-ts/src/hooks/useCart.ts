@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState } from "react"
 import { db } from "../data/guitarras";
-
+import type { Guitar,CartItem } from "../types";
 export const useCart = () => {
   
-    const initialCart=()=>{
+    const initialCart=():CartItem[]=>{
         const localStorageCart=localStorage.getItem('cart');
         /* En este caso descubre si hay algo o no */
         return localStorageCart ? JSON.parse(localStorageCart) : []
     }
 
 
-  const [guitarras,setGuitarras]=useState(db);
+  const [guitarras]=useState(db);
   /* Aqui se pasa la parte de localStorageCart */
   const [cart,setCart]=useState(initialCart);
 
@@ -21,9 +21,9 @@ export const useCart = () => {
         localStorage.setItem('cart',JSON.stringify(cart));
     },[cart]);
 
-  const submitCar=(item)=>{
+  const submitCar=(item:Guitar)=>{
     /* En esta ocasión arrojará la parte de error  */
-    const itemExists=cart.findIndex(guitar=>item.id==guitar.id);
+    const itemExists=cart.findIndex(guitar=>guitar.id==item.id);
     /* Estaremos buscando el indice del array que cumpla para poder tomar el carro luego como referencia */
     console.log("Agregando carrito");
     if(itemExists>=0){
@@ -35,13 +35,15 @@ export const useCart = () => {
         }
         setCart(updateCart);
     }else{
-        item.quantity=1;
-        setCart([...cart,item])
+        /* Estaa parte de la quantity es responsable a la misma variable */
+        /* Aqui se le esta agrengado un quantity de cantidad */
+        const newItem : CartItem = {...item,quantity:1}
+        setCart([...cart,newItem])
     }
 }
 /* Eliminación de carrera  */
 
-    const incrementQuantity=(id)=>{
+    const incrementQuantity=(id:number)=>{
         /* const itemExists=cart.findIndex(guitar=>id==guitar.id);
         const nuevoArreglo=cart.map(item=>{
         if(item.id==id && AUTH_MAX>item.quantity){
@@ -65,7 +67,7 @@ export const useCart = () => {
         })
         setCart(nuevoItems);
     }
-    const decreaseQuantity=(id)=>{
+    const decreaseQuantity=(id:number)=>{
         //const itemExists=cart.findIndex(guitar=>id==guitar.id);
         /* Aqui estamos obteniendo  */
         //const nuevoArreglo=cart.map(item=>{
@@ -94,11 +96,11 @@ export const useCart = () => {
         setCart([]);
     }
 
-    const eliminarGuitar=(id)=>{
+    const eliminarGuitar=(id:number)=>{
         const nuevoArreglo=cart.filter(item=>item.id!=id);
         setCart(nuevoArreglo);
     }
-
+    /* No tienen nada */
     const isEmpty=useMemo(()=>cart.length===0,[cart]);
     const cartTotal=useMemo(()=>cart.reduce((total,item)=>total+item.quantity*item.price,0),[cart]);
 

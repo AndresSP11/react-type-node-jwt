@@ -5,7 +5,7 @@ import { useCart } from './hooks/useCart';
 
 function App() {
 
-    const {guitarras,cart,submitCar,eliminarGuitar,decreaseQuantity,incrementQuantity,vaciarCarrito,setCart,isEmpty,cartTotal}=useCart();
+    const {guitarras,cart,submitCar,eliminarGuitar,decreaseQuantity,incrementQuantity,vaciarCarrito,isEmpty,cartTotal}=useCart();
 
   return (
     <>
@@ -26,9 +26,6 @@ function App() {
                 guitarra={guitarra}
                 key={guitarra.id}
                 submitCar={submitCar}
-                setCart={setCart}
-                cart={cart}
-                
                 >       
                 </Guitar>
             ))}

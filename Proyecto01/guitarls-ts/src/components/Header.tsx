@@ -1,7 +1,16 @@
+import type {CartItem,Guitar} from "../types";
+type HeaderProps={
+    cart: CartItem[]
+    eliminarGuitar:(id:Guitar['id'])=>void
+    decreaseQuantity:(id:Guitar['id'])=>void
+    incrementQuantity:(id:Guitar['id'])=>void
+    vaciarCarrito:()=>void
+    cartTotal:number
+    isEmpty:boolean
+}
 
-import { useCart } from '../hooks/useCart';
 
-const Header = ({cart,eliminarGuitar,decreaseQuantity,incrementQuantity,vaciarCarrito,cartTotal,isEmpty}) => {
+const Header = ({cart,eliminarGuitar,decreaseQuantity,incrementQuantity,vaciarCarrito,cartTotal,isEmpty}: HeaderProps) => {
 
   return (
     <header className="py-5 header">
