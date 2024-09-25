@@ -28,10 +28,10 @@ function App() {
           }
         </div>
         <div className=" border border-dashed border-slate-300 p-5 rounded-lg space-y-10">
-          <h2 className="text-4xl font-bold">Consumo</h2>
-            {order.map((item)=><OrderContents
-            key={item.id}
-            order={order}></OrderContents>)}
+            <OrderContents
+            
+            order={order}
+            ></OrderContents>
         </div>
         
       </main>

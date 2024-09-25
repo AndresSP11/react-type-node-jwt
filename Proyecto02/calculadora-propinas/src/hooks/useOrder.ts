@@ -31,9 +31,6 @@ const useOrder = () => {
     }
     console.log(order);
 
-
-
-
     return{
         addItem,
         order
