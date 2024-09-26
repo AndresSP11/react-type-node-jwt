@@ -1,10 +1,12 @@
-import React from 'react'
+
 import { OrderItem } from '../types'
 import { formatCurrency } from '../helpers'
+
 
 type OrdertContentsProps={
     order:OrderItem[]
     removeItem:(item:OrderItem)=>void
+    
   }
 
 
@@ -21,7 +23,7 @@ const OrderContents = ({order,removeItem}:OrdertContentsProps) => {
                 key={item.id}>
                   <div>
                     <p className=' text-lg'>{item.name}-{formatCurrency(item.price)}</p>
-                    <p className=' font-black '>Cantidad: {item.quantity} - {formatCurrency(item.price)}</p>
+                    <p className=' font-black '>Cantidad: {item.quantity} - {formatCurrency(item.price*item.quantity)}</p>
                   </div>
                   
                   

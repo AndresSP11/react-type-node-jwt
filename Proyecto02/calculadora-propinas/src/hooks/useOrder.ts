@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import type { MenuItem, OrderItem } from '../types';
 const useOrder = () => {
     
     const [order,setOrder]=useState<OrderItem[]>([]);
-    const [tip,setTip]=useState(0);
+    const [tip,setTip]=useState(10);
 
 
 
@@ -30,8 +30,6 @@ const useOrder = () => {
             const newItem:OrderItem={...item,quantity:1};
         setOrder([...order,newItem]);
         }
-        
-        
     }
     
     function removeItem(item:OrderItem){
@@ -39,12 +37,18 @@ const useOrder = () => {
         setOrder(nuevoArreglo);
     }
 
+    function placeHolder(){
+        setOrder([]);
+        setTip(0);
+    }
+
     return{
         addItem,
         order,
         removeItem,
         setTip,
-        tip
+        tip,
+        placeHolder
     }
 }
 export default useOrder
