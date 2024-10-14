@@ -3,10 +3,6 @@ import Form from "./components/Form"
 import { activityReducer,initialState } from "./reducers/activity-reducer"
 import ActivityList from "./components/ActivityList";
 
-
-
-
-
 function App() {
   /* Declarando al aprte del useReducer */
   const[state,dispatch]=useReducer(activityReducer,initialState);
