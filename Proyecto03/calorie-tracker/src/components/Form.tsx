@@ -1,32 +1,51 @@
-import React, { act, Dispatch, useReducer, useState } from 'react'
+import React, { act, Dispatch, useReducer, useState,useEffect } from 'react'
 import { categories } from '../data/categories'
 import { Activity } from '../types';
-import { ActivityActions } from '../reducers/activity-reducer';
- 
+import { ActivityActions, ActivityState } from '../reducers/activity-reducer';
+/* Tipado por parte del UseReducer */ 
+
+/* Vamos a identificar la parte del useEffect paraque antes qeu cargue state verifique si hay una actividad en el ID */
+
+
+
 import {v4 as uuidv4} from 'uuid';
 
 
 /* No olvidar del tipado de la forma que estabmos haciendoo antiguamente */
 
 type FormProps={
-    dispatch:Dispatch<ActivityActions>
+    dispatch:Dispatch<ActivityActions>,
+    state:ActivityState  
 }
 
 const initialState={
     id:uuidv4(),
     category:1,
-        name:'',
-        calories:0
+    name:'',
+    calories:0
 }
 
-export default function Form({dispatch}:FormProps) {
+export default function Form({dispatch,state}:FormProps) {
 
     const [activity,setActivity]=useState<Activity>(initialState);
-   
 
-    /* Esta tipando el evento. */
+    useEffect(()=>{
+        if(state.activeId){
+            /* console.log(state.activeId); */
+            /* En este caso la parte de la seleccion se esta dandode forma que cuando 
+            se tenga  */
+            const selectedActivity=state.activities.filter(stateActivity=>stateActivity.id=state.activeId)[0];
+            /* Recordarqeu la parte de filter va retornar una lista de Objetos */
+            /* console.log("Determinando la parte del selected");
+            console.log(selectedActivity); */
+            setActivity(selectedActivity);
+        }
+    },[state.activeId])
+
+
+    /* Esta tipando el evento, osea esto quiere decir que los cambios qeu ocurran en el Submit va ocurrir esto. */
     const handleChange=(e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> )=>{
-         const isNumberField=['category','calories'].includes(e.target.id)
+        const isNumberField=['category','calories'].includes(e.target.id)
         /* Esta forma  */
         console.log(activity);
         setActivity({...activity,
@@ -42,10 +61,13 @@ export default function Form({dispatch}:FormProps) {
     const handleSubmit=(e:React.FormEvent<HTMLFormElement>)=>{
 
         e.preventDefault();
-
+        /* Aqui se esta mandando el evento encesario */
+        /* Esta ejecutando la parte del distpach esta funcion que se esta definiendo en el useReducer */
         dispatch({type:"save-activity",payload:{newActivity:activity}})
-
+        /* Al parecer esta definiendo la parte ninicial del Id para que no tenga problemas a futuro de que no 
+        se este convocando un nuevo Id , pero al partecer lo deja todo vacio */
         setActivity({
+            /* Se le da las credenciales del initialState yse define unevo ID */
             ...initialState,
             id:uuidv4()
         })

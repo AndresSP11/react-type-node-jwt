@@ -2,16 +2,18 @@ import { Activity } from "../types"
 import { categories } from "../data/categories";
 import { useMemo } from "react";
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { ActivityActions } from "../reducers/activity-reducer";
 /* @heroicons/react/24/outline */
 type ActivityListProps={
     activities:Activity[],
-
+    /* Este dispatch es parte del tipado delinicioa ques e esta pasando por useReducer */
+    dispatch:React.Dispatch<ActivityActions>
 }
 
 
-export default function ActivityList({activities}:ActivityListProps){
-    console.log(activities);
+export default function ActivityList({activities,dispatch}:ActivityListProps){
 
+    console.log(activities);
     const categoryName=useMemo(()=>(category:Activity['category'])=>categories.map(
         cat=>cat.id===category ? cat.name : ''
     ),[activities]);
@@ -30,7 +32,7 @@ export default function ActivityList({activities}:ActivityListProps){
                                 font-bold ${activity.category==1 ? 'bg-green-500' : 'bg-orange-400'}`}>
                                     {/* Aqui estas mandandno la parte del number Category,en base a esa funcion 
                                     se va ejecutar la parte del map para poder hacer la validacion correspondiente */}
-                                {categoryName(activity.category)}
+                                {categoryName(+activity.category)}
                             </p>
                             <p className=" text-2xl font-bold pt-5">
                                 {activity.name}
@@ -41,12 +43,15 @@ export default function ActivityList({activities}:ActivityListProps){
                         </div>
                         
                         <div className=" flex gap-5 items-center">
-                            <button>
+                            <button
+                            /* En este caso la parte de aqui esta siendo definidia por el onClick.   */
+                                onClick={()=>dispatch({type:"set-activeId",payload:{id:activity.id}})}
+                            >
                                 <PencilSquareIcon
                                 className=" h-8 w-8 text-gray-800">
 
                                 </PencilSquareIcon>
-                            </button>
+                            </button>z``
                         </div>
                     </div>
                 ))
