@@ -19,6 +19,7 @@ export default function ActivityList({activities,dispatch}:ActivityListProps){
     ),[activities]);
 
 
+
     return(
         <>
             <h2 className=" text-4xl font-bold text-slate-600 text-center">
@@ -51,7 +52,7 @@ export default function ActivityList({activities,dispatch}:ActivityListProps){
                                 className=" h-8 w-8 text-gray-800">
 
                                 </PencilSquareIcon>
-                            </button>z``
+                            </button>
                         </div>
                     </div>
                 ))

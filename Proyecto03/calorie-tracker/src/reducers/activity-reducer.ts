@@ -1,6 +1,8 @@
 import { act } from "react"
 import { Activity } from "../types"
 
+/* En esta parte de la newActivity es el dato que se esta pasnado para rellenar el state nuevo que en este cawso significa la parte de activities */
+
 export type ActivityActions=
     /* Lo de la derecha el payload, es el newActivity , pero activity lleno , pero la parte del tipado es Activity.  */
     { type:'save-activity', payload:{newActivity:Activity}} |
@@ -22,6 +24,7 @@ export const initialState:ActivityState={
 }
 /* AQQUI ARRIBA ESTA LAS ACTIVIDATES = activities */
 export const activityReducer=(
+    /* Aqui se esta pasando lo que se va retornar en el state */
     state: ActivityState=initialState,
     action: ActivityActions
 )=>{
@@ -30,9 +33,13 @@ export const activityReducer=(
         /* Verificaremos la parte de si existe o no un identificador activo,que es el activeId */
        if(state.activeId){  
             /* En este caso vamos a ver updatedActivities */
+
+            /* En este caso si el metodo significa que (QUE SE ESUSCRIBA TODO LO QUE ESTOY ESCRIBIENDO NUEVAMENTE, EN EL ACTIVITY ) */
             updatedActivities=state.activities.map(activity=>(activity.id===state.activeId ? action.payload.newActivity:activity));
+            
        }else{
-            /* Recordar que se esta pasando la data drecibida por newAxctivity */
+        /* AQUI SE ESTA PASANDO TODO */
+            /* Recordar que se esta pasando la data recibida por newAxctivity */
             updatedActivities=[...state.activities,action.payload.newActivity];
        }
 
@@ -45,10 +52,11 @@ export const activityReducer=(
             ...state,
             /* Copias ade todsa als actividades y agregar el nuevo payload */
             activities:updatedActivities,
-            auth:false
+            activeId:''
         }
     }
     if(action.type==='set-activeId'){
+        
         return{
             ...state,
             activeId: action.payload.id

@@ -29,12 +29,13 @@ export default function Form({dispatch,state}:FormProps) {
 
     const [activity,setActivity]=useState<Activity>(initialState);
 
+    /* useEffect la parte Fromulario par aque se actualice  */
     useEffect(()=>{
         if(state.activeId){
             /* console.log(state.activeId); */
             /* En este caso la parte de la seleccion se esta dandode forma que cuando 
             se tenga  */
-            const selectedActivity=state.activities.filter(stateActivity=>stateActivity.id=state.activeId)[0];
+            const selectedActivity=state.activities.filter(stateActivity=>stateActivity.id===state.activeId)[0];
             /* Recordarqeu la parte de filter va retornar una lista de Objetos */
             /* console.log("Determinando la parte del selected");
             console.log(selectedActivity); */
