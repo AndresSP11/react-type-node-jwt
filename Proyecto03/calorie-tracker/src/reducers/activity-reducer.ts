@@ -6,19 +6,29 @@ import { Activity } from "../types"
 export type ActivityActions=
     /* Lo de la derecha el payload, es el newActivity , pero activity lleno , pero la parte del tipado es Activity.  */
     { type:'save-activity', payload:{newActivity:Activity}} |
+    { type:'set-activeId', payload:{id:Activity['id']}} |
+    {type:'delete-activity',payload:{id:Activity['id']}} |
+    {type:'restart-app'}
     
-    { type:'set-activeId', payload:{id:Activity['id']}}
+
     /* En este caso estamos definiendo  */
     /* Tipado */
 export type ActivityState={
     activities : Activity[],
     activeId:Activity['id']
 }
+
+const localStorageActivities=():Activity[]=>{
+    const activities=localStorage.getItem('activities')
+    return activities ? JSON.parse(activities):[]
+}
+
+
 /* Declarando el tipado, esta es la parte del tipado*/
 export const initialState:ActivityState={
     
    /* ESTAS SON MIS VARAIBLES DEFINIDAS... AQUI VA ESTAR */ 
-    activities:[],
+    activities:localStorageActivities(),
     activeId:''
 
 }
@@ -60,6 +70,20 @@ export const activityReducer=(
         return{
             ...state,
             activeId: action.payload.id
+        }
+    }
+
+    if(action.type==='delete-activity'){
+        /* Para acceder al valor de la parte activities, se tieen que definir con el punto primero que es el State. */
+        return{
+            ...state,
+            activities:state.activities.filter(activity=>activity.id==action.payload.id)
+        }
+    }
+    if(action.type==='restart-app'){
+        return{
+            activities:[],
+            activeId:''
         }
     }
 
