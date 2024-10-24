@@ -43,16 +43,13 @@ export const activityReducer=(
         /* Verificaremos la parte de si existe o no un identificador activo,que es el activeId */
        if(state.activeId){  
             /* En este caso vamos a ver updatedActivities */
-
             /* En este caso si el metodo significa que (QUE SE ESUSCRIBA TODO LO QUE ESTOY ESCRIBIENDO NUEVAMENTE, EN EL ACTIVITY ) */
             updatedActivities=state.activities.map(activity=>(activity.id===state.activeId ? action.payload.newActivity:activity));
-            
        }else{
         /* AQUI SE ESTA PASANDO TODO */
             /* Recordar que se esta pasando la data recibida por newAxctivity */
             updatedActivities=[...state.activities,action.payload.newActivity];
        }
-
         //Este codigo maneja la logica para actualizar el state
         /* console.log("Imprimiendo al parte del action");
         console.log(action.type);
