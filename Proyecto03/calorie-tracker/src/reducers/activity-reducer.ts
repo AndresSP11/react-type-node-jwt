@@ -7,7 +7,9 @@ export type ActivityActions=
     /* Lo de la derecha el payload, es el newActivity , pero activity lleno , pero la parte del tipado es Activity.  */
     { type:'save-activity', payload:{newActivity:Activity}} |
     
-    { type:'set-activeId', payload:{id:Activity['id']}}
+    { type:'set-activeId', payload:{id:Activity['id']}} |
+
+    { type:'remove-activity', payload:{id:Activity['id']}}
     /* En este caso estamos definiendo  */
     /* Tipado */
 export type ActivityState={
@@ -62,6 +64,15 @@ export const activityReducer=(
             activeId: action.payload.id
         }
     }
+
+    if(action.type==='remove-activity'){
+        return{
+            ...state,
+            activities:state.activities.filter(activity=>activity.id===state.activeId)
+        }
+    }
+
+
 
 
     return state
