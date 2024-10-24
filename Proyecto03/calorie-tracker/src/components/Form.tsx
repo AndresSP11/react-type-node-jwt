@@ -3,16 +3,9 @@ import { categories } from '../data/categories'
 import { Activity } from '../types';
 import { ActivityActions, ActivityState } from '../reducers/activity-reducer';
 /* Tipado por parte del UseReducer */ 
-
 /* Vamos a identificar la parte del useEffect paraque antes qeu cargue state verifique si hay una actividad en el ID */
-
-
-
 import {v4 as uuidv4} from 'uuid';
-
-
 /* No olvidar del tipado de la forma que estabmos haciendoo antiguamente */
-
 type FormProps={
     dispatch:Dispatch<ActivityActions>,
     state:ActivityState  
@@ -25,6 +18,7 @@ const initialState={
     calories:0
 }
 
+/* State y dispatch  */
 export default function Form({dispatch,state}:FormProps) {
 
     const [activity,setActivity]=useState<Activity>(initialState);
@@ -41,29 +35,39 @@ export default function Form({dispatch,state}:FormProps) {
             console.log(selectedActivity); */
             setActivity(selectedActivity);
         }
+        /* Cada vez que surja un cambio en el activeId, cambia eso ahi */
     },[state.activeId])
 
 
     /* Esta tipando el evento, osea esto quiere decir que los cambios qeu ocurran en el Submit va ocurrir esto. */
     const handleChange=(e:React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> )=>{
+        /* De este arreglo... el includes es que el que valide si exitste uno igua la ese? */
         const isNumberField=['category','calories'].includes(e.target.id)
         /* Esta forma  */
         console.log(activity);
-        setActivity({...activity,
-            [e.target.id]:isNumberField ?+e.target.value:e.target.value})
+
+
+        setActivity({...activity,[e.target.id]:isNumberField ?+e.target.value:e.target.value})
     }
 
     const isValidActivity=()=>{
+
         const {name,calories}=activity;
+
         console.log(name.trim()!=='' && calories>0);
+
+        /* La validacion la parte de si es verdadero o falso en base a la inputs mandados en el form */
         return name.trim()!=='' && calories>0
     }
 
-    const handleSubmit=(e:React.FormEvent<HTMLFormElement>)=>{
 
+    const handleSubmit=(e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         /* Aqui se esta mandando el evento encesario */
         /* Esta ejecutando la parte del distpach esta funcion que se esta definiendo en el useReducer */
+
+        /* En este parte se convoca la fduncion y se eejectua la accion qeuy se ha madndao en el useReducer */
+
         dispatch({type:"save-activity",payload:{newActivity:activity}})
         /* Al parecer esta definiendo la parte ninicial del Id para que no tenga problemas a futuro de que no 
         se este convocando un nuevo Id , pero al partecer lo deja todo vacio */
@@ -73,6 +77,7 @@ export default function Form({dispatch,state}:FormProps) {
             id:uuidv4()
         })
     }
+
 
   return (
     <form 
