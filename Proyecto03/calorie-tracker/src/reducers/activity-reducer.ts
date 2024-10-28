@@ -5,7 +5,8 @@ import { Activity } from "../types"
 
 export type ActivityActions=
     /* Lo de la derecha el payload, es el newActivity , pero activity lleno , pero la parte del tipado es Activity.  */
-    { type:'save-activity', payload:{newActivity:Activity}} |
+    
+    { type:'save-activity', payload:{newActivity:Activity}} | /* En esta parte es la parte del payload, manda un objeto */
     { type:'set-activeId', payload:{id:Activity['id']}} |
     {type:'delete-activity',payload:{id:Activity['id']}} |
     {type:'restart-app'}
@@ -73,7 +74,7 @@ export const activityReducer=(
         /* Para acceder al valor de la parte activities, se tieen que definir con el punto primero que es el State. */
         return{
             ...state,
-            activities:state.activities.filter(activity=>activity.id==action.payload.id)
+            activities:state.activities.filter(activity=>activity.id!=action.payload.id)
         }
     }
     if(action.type==='restart-app'){

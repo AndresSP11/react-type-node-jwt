@@ -16,7 +16,8 @@ function App() {
     localStorage.setItem('activities',JSON.stringify(state.activities))
   },[state.activities])
 
-  const canRestartApp=()=>useMemo(()=>state.activities.length,[state.activities]);
+  /* En este caso habilitaremos la parte de canRestartApp */
+  const canRestartApp=useMemo(()=>state.activities.length,[state.activities]);
 
   return (
     <>
@@ -27,7 +28,7 @@ function App() {
 
           <button className=" bg-gray-800 hover:bg-gray-900 p-2 font-bold uppercase text-white cursor-pointer rounded-lg text-sm"
           /* Invocando la funcion */
-          disabled={!canRestartApp()}
+          disabled={!canRestartApp}
           onClick={()=>dispatch({type:'restart-app'})}
           >
             Reiniciar App
