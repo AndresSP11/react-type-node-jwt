@@ -1,0 +1,4 @@
+npm i zod
+npm i valibot
+
+https://tobiasahlin.com/spinkit/
